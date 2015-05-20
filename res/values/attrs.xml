@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <declare-styleable name="RoundAreaProgressBar">
+        <attr name="circleBackgroundColor" format="color" />
+        <attr name="filledColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="circleWidth" format="dimension" />
+        <attr name="circleRadius" format="dimension" />
+        <attr name="textSize" format="dimension" />
+        <attr name="showText" format="boolean" />
+    </declare-styleable>
+
+</resources>

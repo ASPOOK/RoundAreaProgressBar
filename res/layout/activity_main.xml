@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:widget="http://schemas.android.com/apk/res/com.andy.roundareaprogressbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="50dp" >
+
+    <com.andy.widgets.RoundAreaProgressBar
+        android:id="@+id/round_area_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        widget:circleRadius="70dp"
+        widget:filledColor="#BF3EFF" />
+
+</LinearLayout>

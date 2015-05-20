@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- RoundAreaProgressBar's Default Value -->
+    <dimen name="text_size">15sp</dimen>
+
+    <color name="text_color">#000000</color>
+
+    <dimen name="circle_width">1dp</dimen>
+    <dimen name="circle_radius">60dp</dimen>
+
+    <color name="filled_color">#6495ED</color>
+    <color name="bg_color">#C7C7C7</color>
+
+</resources>
