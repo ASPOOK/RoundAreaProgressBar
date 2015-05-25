@@ -21,9 +21,9 @@ import android.view.View;
  */
 public class RoundAreaProgressBar extends View {
 
-	/** 圆背景色 */
+	/** 圆的填充颜色 */
 	private int circleBgColor;
-	/** 填充色 */
+	/** 已完成进度部分的填充色 */
 	private int filledColor;
 	/** 文本颜色 */
 	private int textColor;
@@ -42,7 +42,7 @@ public class RoundAreaProgressBar extends View {
 
 	/** 弧度 */
 	private double mRadians;
-	/** 角度 */
+	/** 角度，用于绘制扇形 */
 	private float mStartAngle;
 	private float mSwipeAngle;
 
@@ -83,8 +83,7 @@ public class RoundAreaProgressBar extends View {
 		this(context, attrs, 0);
 	}
 
-	public RoundAreaProgressBar(Context context, AttributeSet attrs,
-			int defStyleAttr) {
+	public RoundAreaProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		init(context, attrs);
 	}
@@ -186,10 +185,18 @@ public class RoundAreaProgressBar extends View {
 
 	}
 
+	/**
+	 * 
+	 * @return current progress
+	 */
 	public int getProgress() {
 		return mProgress;
 	}
 
+	/**
+	 * set current progress
+	 * @param progress
+	 */
 	public void setProgress(int progress) {
 		mProgress = progress;
 		invalidate();
@@ -223,6 +230,10 @@ public class RoundAreaProgressBar extends View {
 		return radius;
 	}
 
+	/**
+	 * set the circle's radius
+	 * @param radius
+	 */
 	public void setRadius(float radius) {
 		this.radius = radius;
 	}
@@ -282,17 +293,17 @@ public class RoundAreaProgressBar extends View {
 		} else if (mProgress > 0 && mProgress < maxValue / 2) {
 			mFilledHeight = getFilledHeight(true);
 		} else if (mProgress == maxValue / 2) {
-			mRadians = PROGRESS_IN_RADIANS[mProgress];
-			mFilledHeight = radius;
+			mRadians = PROGRESS_IN_RADIANS[mProgress];			
 			mStartAngle = 0;
 			mSwipeAngle = 180;
+			mFilledHeight = radius;
 		} else if (mProgress > maxValue / 2 && mProgress < maxValue) {
 			mFilledHeight = getFilledHeight(false);
 		} else if (mProgress == maxValue) {
-			mRadians = PROGRESS_IN_RADIANS[mProgress];
-			mFilledHeight = radius * 2;
+			mRadians = PROGRESS_IN_RADIANS[mProgress];			
 			mStartAngle = -90;
 			mSwipeAngle = 360;
+			mFilledHeight = radius * 2;
 		}
 
 		return mFilledHeight;
