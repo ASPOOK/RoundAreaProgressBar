@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Paint.FontMetrics;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -55,6 +56,8 @@ public class RoundAreaProgressBar extends View {
 	/** 圆心 */
 	private float centerX;
 	private float centerY;
+	
+	private String mSuffix = "%";
 
 	/** 进度对应的弧度（0 <= progress <= 100） */
 	private final static double[] PROGRESS_IN_RADIANS = { 0, 0.364413d,
@@ -89,10 +92,7 @@ public class RoundAreaProgressBar extends View {
 	}
 
 	public void init(Context context, AttributeSet attrs) {
-		mCirclePaint = new Paint();
-		mTextPaint = new Paint();
-		mTrianglePaint = new Paint();
-		mRectF = new RectF();
+		initPaintRect();
 
 		TypedArray ta = context.obtainStyledAttributes(attrs,
 				R.styleable.RoundAreaProgressBar);
@@ -115,6 +115,13 @@ public class RoundAreaProgressBar extends View {
 				true);
 
 		ta.recycle();
+	}
+	
+	public void initPaintRect() {
+		mCirclePaint = new Paint();
+		mTextPaint = new Paint();
+		mTrianglePaint = new Paint();
+		mRectF = new RectF();
 	}
 
 	@Override
@@ -174,7 +181,7 @@ public class RoundAreaProgressBar extends View {
 		if (isShowText) {
 			mTextPaint.setColor(textColor);
 			mTextPaint.setTextSize(textSize);
-			String text = mProgress + "%";
+			String text = mProgress + mSuffix;
 			float textWidth = mTextPaint.measureText(text);
 			FontMetrics fontMetrics = mTextPaint.getFontMetrics();
 			float ascent = fontMetrics.ascent;
@@ -354,17 +361,46 @@ public class RoundAreaProgressBar extends View {
 
 		super.onMeasure(heightMeasureSpec, heightMeasureSpec);
 	}
-
+	
 	@Override
 	protected void onRestoreInstanceState(Parcelable state) {
 		// TODO Auto-generated method stub
+		if (state instanceof Bundle) {
+			final Bundle bundle = (Bundle) state;
+			circleBgColor = bundle.getInt("CIRCLE_BG_COLOR");
+			filledColor = bundle.getInt("FILLED_COLOR");
+			textColor = bundle.getInt("TEXT_COLOR");
+			radius = bundle.getFloat("CIRCLE_RADIUS");
+			textSize = bundle.getInt("TEXT_SIZE");
+			circleWidth = bundle.getFloat("CIRCLE_WIDTH");
+			isShowText = bundle.getBoolean("IS_SHOWTEXT");
+			mProgress = bundle.getInt("PROGRESS");
+			maxValue = bundle.getInt("MAX_VALUE");
+			setProgress(mProgress);
+			initPaintRect();			
+			super.onRestoreInstanceState(bundle.getParcelable("INSTANCE_STATE"));
+			
+			return;
+		}
 		super.onRestoreInstanceState(state);
 	}
 
 	@Override
 	protected Parcelable onSaveInstanceState() {
 		// TODO Auto-generated method stub
-		return super.onSaveInstanceState();
+		final Bundle bundle = new Bundle();
+        bundle.putParcelable("INSTANCE_STATE", super.onSaveInstanceState());
+		bundle.putInt("CIRCLE_BG_COLOR", getCircleBgColor());
+		bundle.putInt("FILLED_COLOR", getFilledColor());
+		bundle.putInt("TEXT_COLOR", getTextColor());
+		bundle.putFloat("CIRCLE_RADIUS", getRadius());
+		bundle.putInt("TEXT_SIZE", getTextSize());
+		bundle.putFloat("CIRCLE_WIDTH", circleWidth);
+		bundle.putBoolean("IS_SHOWTEXT", isShowText());
+		bundle.putInt("PROGRESS", getProgress());
+		bundle.putInt("MAX_VALUE", getMaxValue());
+		
+		return bundle;
 	}
 
 }
